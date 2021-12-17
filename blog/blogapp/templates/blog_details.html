@@ -2,10 +2,10 @@
 {% block title %}{{item.title}}{% endblock %}
 {% block content %}
 
-{% if user.is_authenticated %}
     <h6>{{item.title}}</h6>
     <small>author  :    {{item.author.first_name |upper}} {{item.author.last_name |upper}},
         created on {{item.blog_published_date}}</small><br>
+
     {% if item.author.id == user.id %}
         <a href="{% url 'update_blog' item.pk %}">(edit)</a>
         <a href="{% url 'delete_blog' item.pk %}">(delete)</a>
@@ -17,19 +17,24 @@
     </div>
     <br><br>
     <a class="btn btn-dark" href="{% url 'home' %}">back page</a>
-    <a href="{% url 'delete_blog' item.pk %}" class="btn btn-danger">delete</a>
+    {% if item.author.id == user.id %}
+        <a href="{% url 'delete_blog' item.pk %}" class="btn btn-danger">delete</a>
+    {% endif %}
     <br><br>
     <hr>
     <br>
     <form action="{% url 'like_post' item.pk %}" method="POST" >
         {% csrf_token %}
-        <button type="submit" name="post_id" value="{{ item.id }}" class="btn btn-primary btn-sm">LIKE</button>
+        {% if user.is_authenticated %}
+            {% if liked %}
+                <button type="submit" name="post_id" value="{{ item.id }}" class="btn btn-danger btn-sm">UNLIKE</button>
+            {% else %}
+                <button type="submit" name="post_id" value="{{ item.id }}" class="btn btn-primary btn-sm">LIKE</button>
+            {% endif %}
+        {% else %}
+            <a class="nav-link" href="{% url 'login' %}"> Please Login To Like</a>
+        {% endif %}
         - {{ total_likes }} Likes
     </form>
-{% else %}
-    <div class="alert alert-warning" role="alert">
-        You Have No Permission For This
-    </div><br><br>
-    <a class="btn btn-dark" aria-current="page" href="{% url 'home' %}">Home</a>
-{% endif %}
+    <br><br>
 {% endblock %}

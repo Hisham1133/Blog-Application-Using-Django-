@@ -28,11 +28,14 @@ class BlogDetailsView(DetailView):
     def get_context_data(self, *args, **kwargs):
         blog_data = get_object_or_404(PostBlog, id=self.kwargs['pk'])
         total_likes = blog_data.total_likes()
+        liked = False
+        if blog_data.likes.filter(id=self.request.user.id).exists():
+            liked = True
         cat_data = Categories.objects.all()
         context = super(BlogDetailsView, self).get_context_data()
         context["cat_data"] = cat_data
-        print("*****", blog_data)
         context["total_likes"] = total_likes
+        context["liked"] = liked
         return context
 
 
@@ -80,5 +83,11 @@ def CategoryBlogView(request, cats):
 
 def LikePostView(request, pk):
     post = get_object_or_404(PostBlog, id=request.POST.get('post_id'))
-    post.likes.add(request.user)
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
     return HttpResponseRedirect(reverse('blog_details', args=[str(pk)]))
