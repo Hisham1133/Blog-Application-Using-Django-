@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Delete The {{item.title}} Post{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+    <h4>Delete {{item.title}} Blog.....</h4>
+    <br>
+    <div class="form-group">
+    <form method="post">
+        {% csrf_token %}
+        <strong>Do you want sure to delete {{item.title}}</strong><br><br>
+        <button class="btn btn-danger" >Delete</button>
+    </form>
+    </div>
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        You Have No Permission For This Please Login
+    </div><br><br>
+    <a class="btn btn-dark" aria-current="page" href="{% url 'login' %}">Login</a>
+{% endif %}
+{% endblock %}

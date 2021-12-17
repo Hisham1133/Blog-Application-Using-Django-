@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Create A New Blog{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h4>Add Your Blog.....</h4>
+    <div class="form-group">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-dark" >Post</button>
+    </form>
+    </div>
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        You Have No Permission For This Please Login
+    </div><br><br>
+    <a class="btn btn-dark" aria-current="page" href="{% url 'login' %}">Login</a>
+{% endif %}
+
+<script>
+    var name = "{{user.id}}";
+    document.getElementById("author").value = name;
+</script>
+
+{% endblock %}
