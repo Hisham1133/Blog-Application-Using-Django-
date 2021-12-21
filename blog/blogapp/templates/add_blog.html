@@ -7,8 +7,10 @@
     <div class="form-group">
     <form method="post">
         {% csrf_token %}
+        {{ form.media }}
         {{ form.as_p }}
         <button class="btn btn-dark" >Post</button>
+        <a class="btn btn-dark" href="{% url 'home' %}">Cancel</a>
     </form>
     </div>
 {% else %}
