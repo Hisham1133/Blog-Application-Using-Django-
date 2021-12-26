@@ -5,7 +5,7 @@ from.models import PostBlog, Categories
 class PostBlogForms(forms.ModelForm):
     class Meta:
         model = PostBlog
-        fields = ('title', 'author', 'category', 'content')
+        fields = ('title', 'blog_header_image', 'author', 'category', 'content')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the title of your blog'}),
             'author': forms.TextInput(attrs={'class': 'form-control', 'value': '', 'id': 'author', 'type': 'hidden'}),
