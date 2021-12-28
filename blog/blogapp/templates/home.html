@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<h5>Hi {{user.username}}</h5>
+{% if user.is_authenticated %}
+    <h5>Hi {{user.username}}</h5>
+{% endif %}
 <br>
 <h1>Welcome To Blog World </h1>
 <ul>
