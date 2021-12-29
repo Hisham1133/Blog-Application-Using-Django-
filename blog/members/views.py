@@ -1,10 +1,17 @@
 from django.shortcuts import get_object_or_404
 from django.views import generic
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from .forms import SignUpForm, EditProfileForm, PasswordChange
 from blogapp.models import UserProfile
+
+
+class ProfilePageEditView(UpdateView):
+    model = UserProfile
+    template_name = "registration/edit_profile_page.html"
+    fields = ['bio', 'profile_pic', 'linkedin_url', 'twitter_url', 'facebook_url']
+    success_url = reverse_lazy('home')
 
 
 class ProfilePageView(DetailView):

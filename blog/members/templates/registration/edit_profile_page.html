@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<h4>Edit Profile</h4>
+{% if user.is_authenticated %}
+    {% if user.id == userprofile.user.id %}
+        <div class="form-group">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-dark" >Update Profile</button>
+            <a class="btn btn-dark" href="{% url 'home' %}">Cancel</a>
+        </form>
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+        You Don't Have Permission For This.
+        </div><br><br>
+        <a class="btn btn-dark" aria-current="page" href="{% url 'home' %}">Go Back</a>
+    {% endif %}
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        You Have No Permission For This Please Login
+    </div><br><br>
+    <a class="btn btn-dark" aria-current="page" href="{% url 'login' %}">Login</a>
+{% endif %}
+{% endblock %}
