@@ -1,9 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from django.views.generic import DetailView
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from .forms import SignUpForm, EditProfileForm, PasswordChange
+from blogapp.models import UserProfile
+
+
+class ProfilePageView(DetailView):
+    model = UserProfile
+    template_name = "registration/view_profile.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfilePageView, self).get_context_data()
+        user_info = get_object_or_404(UserProfile, id=self.kwargs['pk'])
+        context["user_info"] = user_info
+        return context
 
 
 class ChangePasswordView(PasswordChangeView):

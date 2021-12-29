@@ -54,12 +54,13 @@
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title">{{item.author.first_name |upper}}</h5>
+          {% if item.author.userprofile.id %}
+            <a href="{% url 'show_profile_page' item.author.userprofile.id %}">Profile Page</a>
          <p class="small text-muted">
              <a href="{{item.author.userprofile.linkedin_url}}">LinkedIn</a>
-
          </p>
         <p class="card-text">{{item.author.userprofile.bio}}</p>
-
+        {% endif %}
       </div>
     </div>
   </div>
