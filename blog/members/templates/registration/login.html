@@ -5,8 +5,18 @@
 <div class="form-group">
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="form-group">
+        <input type="text" class="form-control" name="username" placeholder="Username">
+    </div>
+    <br>
+    <div class="form-group">
+        <input type="password" class="form-control" name="password" placeholder="password">
+    </div>
+    <br>
+    <br>
     <button class="btn btn-dark" >Login</button>
+    <br><br>
+    <a href="{% url 'register' %}">not a user click here for signup</a>
 </form>
 </div>
 {% endblock %}
